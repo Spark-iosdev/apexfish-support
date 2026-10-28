@@ -1,0 +1,19 @@
+<!doctype html><meta charset="utf-8"><title>Apex Fish press transfer</title>
+<meta name="robots" content="noindex">
+<p id="s">Preparing…</p>
+<script>
+(async () => {
+  const q = new URLSearchParams(location.search);
+  const names = (q.get('f') || '').split(',').filter(Boolean);
+  const to = q.get('to') || '';
+  if (!names.length || !to.startsWith('https://appstoreconnect.apple.com/')) { document.getElementById('s').textContent = 'Nothing to send.'; return; }
+  const out = [];
+  for (const n of names) {
+    const blob = await fetch('./' + n + '.jpg').then(r => r.blob());
+    const data = await new Promise(res => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.readAsDataURL(blob); });
+    out.push({ name: n + '.jpg', data });
+  }
+  window.name = JSON.stringify({ apexfish: out });
+  location.href = to;
+})();
+</script>
