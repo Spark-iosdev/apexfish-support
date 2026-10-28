@@ -9,7 +9,7 @@
   if (!names.length || !to.startsWith('https://appstoreconnect.apple.com/')) { document.getElementById('s').textContent = 'Nothing to send.'; return; }
   const out = [];
   for (const n of names) {
-    const blob = await fetch('./' + n + '.jpg').then(r => r.blob());
+    const blob = await fetch('./' + n + '.jpg?v=' + Date.now(), {cache: 'no-store'}).then(r => r.blob());
     const data = await new Promise(res => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.readAsDataURL(blob); });
     out.push({ name: n + '.jpg', data });
   }
